@@ -155,18 +155,62 @@ namespace Task1
             Console.WriteLine("***");
 
             Random random = new Random();
-            for (var i = 0; i < n + 1; i++)
+            bool check = true;
+            bool isDeleted = false;
+            while (true)
             {
-                var prob = random.Next(0, 101);
-                if (prob < 10)
+                var r = new Random();
+                if (r.Next(1, 11) == 1)
                 {
-                    santa.Give(people[0]);
+                    try
+                    {
+                        santa.Give(santa);
+                        Console.WriteLine(santa);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        break;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        if (check)
+                            santa.Request(snowMaiden, r.Next(1, 5));
+                        if (isDeleted)
+                            break;
+                    }
                 }
                 else
                 {
-                    santa.Give(people[i]);
-                    santa.Request(snowMaiden, random.Next(1, 5));
+                    var personOfList = r.Next(1, people.Count);
+                    try
+                    {
+                        santa.Give(people[personOfList]);
+                        Console.WriteLine(people[personOfList]);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine(e.Message);
+                        people.RemoveAt(personOfList);
+                        if (personOfList == 1 && !isDeleted)
+                        {
+                            check = false;
+                            isDeleted = true;
+                        }
+                    }
+                    catch
+                    {
+                        if (check)
+                            santa.Request(snowMaiden, r.Next(1, 5));
+                        if (isDeleted)
+                            break;
+                    }
                 }
+
+                if (check)
+                    santa.Request(snowMaiden, r.Next(1, 5));
+               
             }
         }
     }
