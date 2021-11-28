@@ -68,7 +68,6 @@ namespace Task1
             Console.WriteLine($"a - b = {c1 - c2}");
             Console.WriteLine($"a * b = {c1 * c2}");
             Console.WriteLine($"a + b = {c1 / c2}");
-
         }
     }
 }
